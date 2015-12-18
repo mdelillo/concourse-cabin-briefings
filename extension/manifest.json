@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Concourse sound",
+  "description": "Play sound effects when concourse jobs change state",
+  "version": "1.0",
+  "author": "Mark DeLillo and Mike Kenyon",
+  "homepage_url": "https://github.com/mdelillo/concourse-cabin-briefings",
+
+  "permissions": [
+    "*://*/*"
+  ],
+  "content_scripts": [{
+    "matches": [
+      "*://*/*"
+    ],
+    "js": [
+      "js/jquery/jquery.min.js",
+      "src/inject/play-sound.js"
+    ]
+  }],
+  "web_accessible_resources": [
+    "audio/*.mp3"
+  ]
+}
