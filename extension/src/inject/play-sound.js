@@ -9,6 +9,15 @@
     succeeded: Number.MAX_SAFE_INTEGER,
   }
 
+  var cooldowns = {
+    aborted:   0, // beginning of time
+    errored:   0,
+    failed:    0,
+    started:   0,
+    succeeded: 0,
+  }
+  var COOLDOWN = 60 * 1000;
+
   function countJobsByStatus() {
     var jobs = {
       aborted: $('.node.job.aborted:not(.started)').length,
@@ -37,8 +46,11 @@
   function playSound(states) {
     var state = getHighestPriority(states);
     if (state) {
-      myAudio.src = chrome.extension.getURL(`audio/${state}.mp3`);
-      myAudio.play();
+      if (Date.now() - cooldowns[state] > COOLDOWN) {
+        myAudio.src = chrome.extension.getURL(`audio/${state}.mp3`);
+        myAudio.play();
+        cooldowns[state] = Date.now();
+      }
     }
   }
 
